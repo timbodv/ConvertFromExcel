@@ -14,13 +14,14 @@
         public ConvertExcelHelper()
         {
             this.Data = new DataSet();
+            this.ErrorOccured = false;
         }
 
-        public Exception Error { get; set; }
+        public bool ErrorOccured { get; private set; }
 
-        public ExcelFormatEnum Format { get; set; }
+        public ExcelFormatEnum Format { get; private set; }
 
-        public DataSet Data { get; set; }
+        public DataSet Data { get; private set; }
 
         public static ConvertExcelHelper ConvertExcelToDataset(string filename, bool includesHeader)
         {
@@ -43,9 +44,9 @@
                     openedFile = true;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                objectToReturn.Error = e;
+                objectToReturn.ErrorOccured = true;
             }
 
             if (openedFile)
@@ -62,9 +63,9 @@
                             excelReader.Close();
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        objectToReturn.Error = e;
+                        objectToReturn.ErrorOccured = true;
                     }
                 }
                 else
@@ -80,9 +81,9 @@
                             excelReader.Close();
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        objectToReturn.Error = e;
+                        objectToReturn.ErrorOccured = true;
                     }
                 }
             }

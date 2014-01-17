@@ -11,7 +11,7 @@ namespace Timbodv.ConvertFromExcel
         [STAThread]
         public static void Main(string[] args)
         {
-            var result = ConvertExcelHelper.ConvertExcelToDataset(@"C:\Users\Tim\SkyDrive\Documents\Details2.xlsx", false);
+            var result = ConvertExcelHelper.ConvertExcelToDataset(@"C:\Users\Tim\Documents\sample.xls", false);
             Console.WriteLine(result);
         }
     }

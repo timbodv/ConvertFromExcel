@@ -14,19 +14,20 @@
         [Parameter(Mandatory = true, Position = 0)]
         public string FileName { get; set; }
 
+        [Parameter]
         public SwitchParameter IncludesHeader { get; set; }
 
         protected override void ProcessRecord()
         {
             ConvertExcelHelper convert = ConvertExcelHelper.ConvertExcelToDataset(this.FileName, this.IncludesHeader);
-            if (convert.Error != null)
+            if (!convert.ErrorOccured)
             {
                 this.WriteVerbose(@"Excel document format was " + convert.Format);
-                this.WriteObject(convert.Data.Tables[0]);
+                this.WriteObject(convert.Data);
             }
             else
             {
-                ErrorRecord record = new ErrorRecord(convert.Error, "ParserError,Timbodv.ConvertFromExcel.Command.ConvertFromExcelCommand", ErrorCategory.ParserError, this);
+                ErrorRecord record = new ErrorRecord(new ApplicationException("Failed to parse specified file"), "ParserError,Timbodv.ConvertFromExcel.Command.ConvertFromExcelCommand", ErrorCategory.ParserError, this);
                 this.WriteError(record);
             }
         }
